@@ -1,4 +1,4 @@
-lab.dependent-types
+lab.type-theory
 ===================
 
-A laboratory for exploring dependent type theory
+A laboratory for exploring type theory
