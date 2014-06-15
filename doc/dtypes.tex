@@ -1,0 +1,132 @@
+\chapter{Dependent Types}
+
+\section{Symbols}
+
+We're going to use numbers to explain dependent types.  We'll be
+working in base 10, so we need 10 decimal digits.  Of course we can
+use the standard digits 0-9, but we don't have to; we can use any
+symbol at all.  For example:
+
+{ ○ , △ , □ , ♡ , ♤ , ♢ , ♧ , ☆ , ♀ , ♂ }
+
+
+Nor need we restrict our set to 10 symbols; we could stipulate that
+our symbol set is infinite, but to actually use it we have to be able
+to write them all down, which means we have to have a finite set, but
+it can be as large as we want.  Of course the usual way to proceed is
+to define a minimal set of ten symbols together with a
+numeral-formation rule that allows us to construct an infinite number
+of symbols from a finite set by simple concatenation of strings of the
+basic ten: 1234, for example.
+
+In fact we only need a single symbol; in what follows we'll show how
+one symbol can be used to define (construct) any number system.
+
+We'll call our basic symbol set the ``alphabet'' of our language.
+We're already calling the elements of the set symbols, which means we
+already have an implicit type: the concept ``symbol'' categorizes the
+elements of our alphabet set.  We're going to need the term ``symbol''
+later, so lets rename this category to ``symbolic'', so we can say
+that our alphabet is a set of symbolics:
+
+Symbolic :: { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }
+
+alternatively:
+
+Symbolic :: { ○ , △ , □ , ♡ , ♤ , ♢ , ♧ , ☆ , ♀ , ♂ }
+
+
+
+
+Example: set of Ints.  We can recognize 1 and 2 as integers and \{\}
+as a set; more precisely, we can recognize the symbols because we're
+familiar with the conventions governing their usage and
+interpretation.  So we can recognize that the form \( \{1, 2\}\)
+expresses (denotes) a set of integers.
+
+Note that the concept ``set of integers'' is a complex concept that
+depends on two more basic concepts, namely ``set'' and ``integer''.
+So the more complex concept may be said to \textit{depend} on its more
+basic component concepts.
+
+The critical point here is that the combination of ``set'' and
+``integer'' goes both ways.  It may seem most ``natural'' to recognize
+\( \{1, 2\}\) as an example of the category (type) ``set of
+integers'', but that's a matter of convention; it is equally
+legitimate to recognize it as an element of the category ``integer of
+sets''.  Not ``integer of sets of integers'', mind you, but just
+``integer of sets''.  To see this, all that is needed is a little
+reflection on the concepts involved.  First of all, the
+\textit{symbols} 1 and 2 are not themselves integers; nor do the
+reveal anything about the nature of integers.  The same considerations
+apply to symbolic forms like \(\{1, 2\}\).  These forms are just
+symbolic forms, and any form can play the role of symbol.  In
+particular, sets -- or rather, set forms like \( \{1, 2\}\) -- can be
+treated as symbols of anything we like.
+
+Furthermore, integers and sets themselves -- rather than the symbolic
+forms we use to refer to them -- can serve as symbols.  There is
+nothing strange about calling a set an integer, of course; according
+to standard set theory, that is precisely what integers are, special
+kinds of sets.
+
+The larger point: we never have direct access to things; all we have
+is various descriptions.  The same thing under different descriptions
+can look like different things.  That is, when we categorize things we
+do not really categorize the thing itself; rather, we categorize it
+\textit{under a description}.  Or, to categorize is to describe.  So a
+set may ``look like'' a mere set under one description; under another
+description, it comes out as an integer.
+
+Back to the notion of ``integer of sets''.  This counts as a dependent
+type.  It's a member of an \textit{indexed family of types}; other
+members of this family include ``rational of sets'', ``real of sets'',
+etc.
+
+In other words, if we can for type X of Y, we can also form the type Y
+of X.
+
+What do the elements of type ``integer of sets'' look like?  Just like
+sets, in fact, with one difference: the elements themselves must be
+typed, which means that we have to use a \textit{constructor} for form
+expressions of the type.  Let's declare that \texttt{intset} is the
+constructor; then e.g. \texttt{intset \{1, 2\}} is a term of type
+``integer of sets''.  (Of course we could define other syntax,
+e.g. \texttt{intset 1 2}; we retain the braces to stress the concept
+of integer of sets.)
+
+So ``integer of sets'' is a type; that is, it categorizes some things.
+What are those things?  Integers that depend on sets.  The type
+``integer of X'' is a type family; its individuals depend on X, so
+``integer of sets'' depends on ``set'', just as ``set of integers''
+depends on ``integer''.
+
+Some Int of Sets terms: intset \{1, 2\}; intset \{foo, bar\}; inset \{
+\{\}, \{\{\}\} \}.  Note that these terms have something in common:
+they all contain two elements.
+
+So under the right description, these things can be treated as
+integers.  For example, Int-of-Set elements of size two form an
+equivalence class; the integer '2' corresponds to that class.  Note
+that this makes individual integers correspond to sets of intsets.
+
+Replace ``set'' by ``sequence'' and you get a variation on the same
+theme.  An Int-of-Sequences is a kind of int that depends on the type
+``sequence'' rather than set, just as ``Sequence-of-Int'' is a kind of
+sequence that depends in Int (rather than, say Rational or Real).
+
+Anyway, the point of all this is that thinking in (dependent) types is
+very flexible; what counts as a type depends on how you want to
+conceptualize things.
+
+In fact, the ``base'' type of a dependent type of this kind doesn't
+really matter.  A type ``X of Y'' is a new type that is distinct from
+by X and Y, although it is dependent on both.  So it isn't really a
+``kind'' of either X or Y.  A List-of-Int is not really a kind of
+List, nor a kind of Int.  To say that one type is dependent on another
+is not to say that it is a type of that kind.  A depends on B != A is
+a kind of B.  E.g. List-of-Int: its ``kind'' is ``List-of-A'' where A
+is a type variable (schematic var), not ``List''.  It's an instance of
+the schema.
+
+What kind a thing it is also depends on ops?  Algebra.

@@ -1,0 +1,27 @@
+\chapter{Terms}
+
+Instead of ``type'' we talk only of terms.  The key is to think in terms
+of ``orders''.  A term of order n serves to categorize some set of terms
+of order n-1.  For example, Chibi is my housecat.  That makes ``Chibi''
+a term of order 0; it categorizes nothing except the individual it
+names.  ``Housecat'' is a term of order 1; it categorizes individuals
+that are cats.  ``Feline'' is a term of order 2; it categorizes terms of
+order 1, like ``housecat'', ``big cat'', etc.  ``Mammal'' is a term of order
+3; it categorizes terms of order 2, like ``Feline'', ``Canine'', ``Ape'', etc.
+
+So numerals like 0, 1, 327, etc. are terms or order 0; they categorize
+only themselves (or maybe the ``values'' they denote).  Type terms like
+``Natural'', ``Integer'', etc. are terms of order 1: they categorize the
+numerals.  Dependent types like ``List of Int'' are also terms of order
+1: they categorize the terms of order 0 involving constructors, like
+``3::2::1::nil'' (in Haskell-like notation).
+
+Dependent type families like ``List of X'' are terms of order 2: they
+categorize the order 1 terms like ``List of Int'', ``List of
+Rational'', etc.
+
+So ``type'' in standard terminology corresponds to ``2nd order term''
+in our terminology.  Keeping track of abstraction -- answering
+questions like ``what is the type of a type?'' -- is a lot easier
+using this terminology.  The type of any term of order n is a term of
+order n+1.

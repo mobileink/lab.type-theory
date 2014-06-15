@@ -1,0 +1,157 @@
+\chapter{Types}
+
+\section{Type as Concept}
+A type is a concept, and concepts are what we use to categorize the
+world.
+
+Chibi, cat, feline, mammal.
+
+\section{Type as Syntactic Category}
+
+\section{Type as Rule}
+
+\section{Example}
+
+Integers.  A set under the classic description, a type under type theory.
+
+How can we ``construct'' integers?  Classic: how can we come up with
+expressions that \textit{denote values}?  Type theory: how can we
+\textit{construct terms}?
+
+Numerals.  It's easy to define construction of single-digit numerals:
+just list the digits:
+
+\begin{verbatim}
+
+DecimalNumeral:  0 | 1 | .. | 9 ;
+
+\end{verbatim}
+
+Compare this to the metasyntax of an ordinary grammar (e.g. ANTLR4):
+
+\begin{verbatim}
+
+DecimalNumeral:  '0' | '1' | .. | '9' ;
+
+\end{verbatim}
+
+We have to quote the ``constructors'', because we're dealing with a
+host language.
+
+The constants so declared count as constructors.  Using them
+constructs a term.  Classically, we don't have the notion of
+constructing a term; instead, we have the idea of writing a
+grammatical sentence that denotes a value.  The grammar is
+antecedently defined; our DecimalNumeral production is part of the
+language definition, not a program.  In type theory, the type
+declaration is not part of the grammar of the language, but is a
+program.  It implicitly defines a grammar; we view ``DecimalNumeral''
+as a syntactic category whose ``members'' are 0, 1,..,9.
+
+Ok, so how can we construct longer numerals, like '123'?
+
+Classically, in the syntax definition.  Here's how ANTLR4 does it for Java:
+
+\begin{verbatim}
+DecimalNumeral
+    :   '0'
+    |   NonZeroDigit (Digits? | Underscores Digits)
+    ;
+
+fragment
+Digits
+    :   Digit (DigitOrUnderscore* Digit)?
+    ;
+
+fragment
+Digit
+    :   '0'
+    |   NonZeroDigit
+    ;
+
+fragment
+NonZeroDigit
+    :   [1-9]
+    ;
+
+fragment
+DigitOrUnderscore
+    :   Digit
+    |   '_'
+    ;
+
+fragment
+Underscores
+    :   '_'+
+    ;
+
+\end{verbatim}
+
+(Why ``NonZeroDigit'' etc.?  Because e.g. HexNumerals start with 0;
+this allows a standalone 0 to count as a decimal numeral.)
+
+This bit of grammar defines the form of decimal numerals, but it says
+nothing about how to ``construct'' them.  By that I mean there is no
+procedure associated with the grammatical rule.
+
+By contrast, a type-theoretic definition might look something like this:
+
+\begin{verbatim}
+Declare DecimalNumeral
+    := 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+    | 0 DecimalNumeral
+    | 1 DecimalNumeral
+    | 2 DecimalNumeral
+    | 3 DecimalNumeral
+    | 4 DecimalNumeral
+    | 5 DecimalNumeral
+    | 6 DecimalNumeral
+    | 7 DecimalNumeral
+    | 8 DecimalNumeral
+    | 9 DecimalNumeral
+    ;
+\end{verbatim}
+
+We can simplify this a bit by using a helper:
+
+\begin{verbatim}
+Declare DecimalDigit := 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 ;
+Declare DecimalNumber := DecimalDigit | DecimalDigit DecimalNumber ;
+\end{verbatim}
+
+Note that these are recursive definitions.  In most grammar
+meta-syntaxes, we might write something like:
+
+\begin{verbatim}
+Declare DecimalNumber := DecimalDigit+ ;
+\end{verbatim}
+
+But this relies on the grammatical meta-symbol '+', which is
+unavailable.
+
+Now something like this could be written in a grammatical meta-syntax
+as part of a language definition.  But we make it part of the
+language, something the user can write.  It has the effect of making
+the decimal digits constructors.  An expression like ``23'' is
+interpreted as applying the constructor ``2'' to the result of
+applying ``3''.
+
+Neither of these defines meaning.  For that we need additional rules,
+etc.  In most programming languages, the interpretation of numerals is
+implicitly defined by the compiler implementation.  In proof
+assistants and some functional programming languages, this can be
+specified using the language, as part of a ``prelude'' library.
+
+In other words, type-theoretic languages can be absolutely minimal,
+with no predefined semantics and hardly any syntax.  Type declarations
+and definitions etc. then extend the language.
+
+\begin{ednote}
+  What makes this construction?
+\end{ednote}
+
+\begin{ednote}
+  Anyway the point is the connection between type-theoretic programs
+  and grammatical specification.
+\end{ednote}
+
